@@ -157,13 +157,13 @@ def _render_results(job_id: str, params: dict) -> None:
                 )
             st.markdown(analysis_text)
 
-    st.plotly_chart(charts.cumulative_pnl(trades), width="stretch")
+    st.plotly_chart(charts.cumulative_pnl(trades), width="stretch", key=f"bt_cum_pnl_{job_id}")
     col_a, col_b = st.columns(2)
     with col_a:
-        st.plotly_chart(charts.pnl_bar(trades), width="stretch")
+        st.plotly_chart(charts.pnl_bar(trades), width="stretch", key=f"bt_pnl_bar_{job_id}")
     with col_b:
-        st.plotly_chart(charts.win_by_weekday(trades), width="stretch")
-    st.plotly_chart(charts.pnl_by_instrument(trades), width="stretch")
+        st.plotly_chart(charts.win_by_weekday(trades), width="stretch", key=f"bt_win_by_weekday_{job_id}")
+    st.plotly_chart(charts.pnl_by_instrument(trades), width="stretch", key=f"bt_pnl_by_instrument_{job_id}")
 
     st.subheader("Price + trades")
     ticker = st.selectbox("Ticker for candles", sorted(trades["ticker"].unique()),
@@ -174,8 +174,8 @@ def _render_results(job_id: str, params: dict) -> None:
     else:
         t_ticker = trades[trades["ticker"] == ticker]
         st.plotly_chart(charts.candlestick_chart(bars, t_ticker, f"{ticker} — entries/exits"),
-                        width="stretch")
-        st.plotly_chart(charts.volume_chart(bars), width="stretch")
+                        width="stretch", key=f"bt_candle_chart_{job_id}_{ticker}")
+        st.plotly_chart(charts.volume_chart(bars), width="stretch", key=f"bt_volume_chart_{job_id}_{ticker}")
 
     st.subheader("Trades")
     view = trades.sort_values("closed_ts", ascending=False)

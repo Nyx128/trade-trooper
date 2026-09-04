@@ -55,10 +55,10 @@ def render() -> None:
     if not equity.empty:
         col1, col2 = st.columns(2)
         with col1:
-            st.plotly_chart(charts.equity_curve(equity), width="stretch")
+            st.plotly_chart(charts.equity_curve(equity), width="stretch", key="live_equity_curve")
         with col2:
-            st.plotly_chart(charts.drawdown_timeline(equity), width="stretch")
-        st.plotly_chart(charts.equity_vs_pnl(equity, trades), width="stretch")
+            st.plotly_chart(charts.drawdown_timeline(equity), width="stretch", key="live_drawdown_timeline")
+        st.plotly_chart(charts.equity_vs_pnl(equity, trades), width="stretch", key="live_equity_vs_pnl")
     else:
         st.info("No equity history yet — the runner will record equity each cycle.")
 
@@ -100,7 +100,7 @@ def render() -> None:
                 st.markdown(st.session_state["live_ai_narrative"])
 
     if not cycles.empty:
-        st.plotly_chart(charts.risk_score_timeline(cycles), width="stretch")
+        st.plotly_chart(charts.risk_score_timeline(cycles), width="stretch", key="live_risk_score_timeline")
 
     if not decisions.empty:
         st.subheader("Recent Decision Log Entries")
